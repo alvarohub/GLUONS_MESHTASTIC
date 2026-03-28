@@ -1,0 +1,25 @@
+.pioenvs
+**/.pio/
+**/.pioenvs/
+**/.DS_Store
+.DS_Store
+**/.vscode/
+.vscode/
+**/*.dblite
+
+# Exclude images, media, and binary docs
+**/*.gif
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.mp4
+**/*.odt
+**/*.pdf
+**/*.dxf
+**/*.vlw
+
+# Exclude frozen V2 module configs (superseded by GLUON_GENERIC)
+GLUON_V2/GLUON_GENERIC_1/
+GLUON_V2/GLUON_GENERIC_2/
+GLUON_V2/GLUON_GENERIC_3/
+GLUON_V2/GLUON_GENERIC_4/

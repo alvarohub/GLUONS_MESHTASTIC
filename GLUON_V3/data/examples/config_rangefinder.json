@@ -1,0 +1,41 @@
+{
+  "name": "RANGE",
+  "nodeId": 0,
+  "inlets": 3,
+  "outlets": 1,
+  "maxFanIn": 3,
+  "maxFanOut": 8,
+  "logic": "passthrough",
+  "updateMode": 5,
+  "periodicMs": 1000,
+  "latchPeriodMs": 200,
+  "transport": "loopback",
+  "displayEnabled": true,
+  "displayDriver": "ssd1306_128x64",
+  "sensors": [
+    {
+      "type": "analog",
+      "name": "SHARP",
+      "pin": 1,
+      "min": 0,
+      "max": 150,
+      "smoothing": 0.8,
+      "tolerance": 5.0,
+      "conditionValue": 50.0,
+      "learnable": true
+    }
+  ],
+  "actuators": [
+    {
+      "type": "digital",
+      "name": "LED",
+      "pin": 5,
+      "mode": "pulse",
+      "duration": 200
+    },
+    {
+      "type": "display",
+      "name": "dist"
+    }
+  ]
+}

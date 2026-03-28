@@ -1,0 +1,42 @@
+{
+  "name": "SWITCH",
+  "nodeId": 0,
+  "inlets": 3,
+  "outlets": 1,
+  "logic": "passthrough",
+  "updateMode": 1,
+  "latchPeriodMs": 50,
+  "transport": "loopback",
+  "sensors": [
+    {
+      "type": "switch",
+      "name": "BTN",
+      "pin": 4,
+      "pullup": true,
+      "debounce": 50
+    }
+  ],
+  "actuators": [
+    {
+      "type": "pwm",
+      "name": "R",
+      "pin": 5,
+      "min": 0,
+      "max": 255
+    },
+    {
+      "type": "pwm",
+      "name": "G",
+      "pin": 6,
+      "min": 0,
+      "max": 255
+    },
+    {
+      "type": "pwm",
+      "name": "B",
+      "pin": 7,
+      "min": 0,
+      "max": 255
+    }
+  ]
+}

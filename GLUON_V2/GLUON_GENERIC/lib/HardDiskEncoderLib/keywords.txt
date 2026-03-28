@@ -1,0 +1,25 @@
+#######################################
+# Syntax Coloring Map For HDEncoder
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+HDEncoder	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+resetAngle		KEYWORD2
+setDegresPerStep	KEYWORD2
+isChange		KEYWORD2
+getAngle		KEYWORD2
+getSpeed		KEYWORD2
+getStateString		KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

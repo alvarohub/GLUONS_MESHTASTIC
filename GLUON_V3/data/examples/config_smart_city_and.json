@@ -1,0 +1,24 @@
+{
+  "name": "PIE_GATE",
+  "nodeId": 0,
+  "inlets": 3,
+  "outlets": 1,
+  "logic": "and_gate",
+  "updateMode": 4,
+  "latchPeriodMs": 200,
+  "transport": "loopback",
+  "_comment": "Example: playground lights turn on only if (people_count > 10) AND (oven_temp > 180). The AND gate outputs when all inlets have events.",
+  "sensors": [],
+  "actuators": [
+    {
+      "type": "digital",
+      "name": "LIGHTS",
+      "pin": 5,
+      "mode": "normal"
+    },
+    {
+      "type": "display",
+      "name": "status"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "COUNTER",
+  "nodeId": 0,
+  "inlets": 3,
+  "outlets": 1,
+  "logic": "counter",
+  "updateMode": 2,
+  "latchPeriodMs": 100,
+  "transport": "loopback",
+  "sensors": [],
+  "actuators": [
+    {
+      "type": "display",
+      "name": "CNT"
+    }
+  ]
+}

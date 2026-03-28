@@ -1,0 +1,43 @@
+{
+  "name": "METRO",
+  "nodeId": 0,
+  "inlets": 3,
+  "outlets": 1,
+  "maxFanIn": 3,
+  "maxFanOut": 8,
+  "logic": "metro",
+  "updateMode": 5,
+  "periodicMs": 1000,
+  "latchPeriodMs": 100,
+  "transport": "loopback",
+  "displayEnabled": true,
+  "displayDriver": "ssd1306_128x64",
+  "sensors": [
+    {
+      "type": "switch",
+      "name": "OnOff",
+      "pin": 4,
+      "pullup": true,
+      "debounce": 100
+    }
+  ],
+  "actuators": [
+    {
+      "type": "digital",
+      "name": "beat",
+      "pin": 5,
+      "mode": "pulse",
+      "duration": 100
+    },
+    {
+      "type": "digital",
+      "name": "metro",
+      "pin": 6,
+      "mode": "normal"
+    },
+    {
+      "type": "display",
+      "name": "BPM"
+    }
+  ]
+}
