@@ -1,12 +1,17 @@
 {
-  "name": "COUNTER",
+  "name": "COUNT",
   "nodeId": 0,
   "inlets": 3,
   "outlets": 1,
+  "maxFanIn": 3,
+  "maxFanOut": 8,
   "logic": "counter",
   "updateMode": 2,
   "latchPeriodMs": 100,
   "transport": "loopback",
+  "displayEnabled": true,
+  "displayDriver": "ssd1306_128x64",
+  "_comment": "V2 Gluon #4: COUNT — Event counter with 7-segment display. Inlet[0] counts events, inlet[1] sets counter top, inlet[2] resets. Bangs outlet on overflow.",
   "sensors": [],
   "actuators": [
     {

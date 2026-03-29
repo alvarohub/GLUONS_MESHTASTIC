@@ -30,6 +30,7 @@
 #include "interaction/TiltSensor.h"
 #include "interaction/LedIndicator.h"
 #include "interaction/LearningButton.h"
+#include "interaction/IRProximity.h"
 #include <Preferences.h>
 
 namespace gluon {
@@ -83,6 +84,9 @@ public:
         if (tiltEnabled_) tiltSensor_.enable();
         learningButton_.init(learningButtonPin_, learningButtonEnabled_);
 
+        // Initialize IR proximity (V2's moduleIR — connection discovery)
+        irProximity_.init(irSendPin_, irRecvPin_, irEnabled_);
+
         // V2 startup animation: chirp + blink each LED
         chirpSpeaker_.chirpUp();
         ledIndicator_.blinkInlet(0);
@@ -122,6 +126,9 @@ public:
     void setLearningButtonPin(int8_t pin, bool enabled = true) {
         learningButtonPin_ = pin; learningButtonEnabled_ = enabled;
     }
+    void setIRPins(int8_t sendPin, int8_t recvPin, bool enabled = true) {
+        irSendPin_ = sendPin; irRecvPin_ = recvPin; irEnabled_ = enabled;
+    }
 
     // =====================================================================
     //  Main update loop — call this from loop()
@@ -155,6 +162,18 @@ public:
             sendPullPatchChord();
         }
 
+        // 0c. IR proximity receive — check for nearby beacons (V2 step 1)
+        {
+            IRBeaconEvent irEvent = irProximity_.checkReceive();
+            if (irEvent.received) {
+                if (irEvent.isRemoteControl) {
+                    processIRRemote(irEvent.remoteCode);
+                } else {
+                    processIRBeacon(irEvent);
+                }
+            }
+        }
+
         // 1. Receive and process mesh messages (V2 steps 1-2)
         transport_->update();
         while (transport_->hasMessage()) {
@@ -177,6 +196,15 @@ public:
         if (outlets_.hasAnyNewData() && (now - lastLatchTime_ >= config_.latchPeriodMs)) {
             sendOutletData();
             lastLatchTime_ = now;
+        }
+
+        // 5b. IR beacon send — broadcast our identity to nearby nodes (V2 step D2)
+        {
+            bool outletsAtCapacity = true;
+            for (const auto& out : outlets_.all()) {
+                if (out.hasSpace()) { outletsAtCapacity = false; break; }
+            }
+            irProximity_.updateBeacon(nodeId_, outletsAtCapacity);
         }
 
         // 6. Update actuators (V2 step D3)
@@ -305,6 +333,84 @@ private:
                 break;
 
             default:
+                break;
+        }
+    }
+
+    // =====================================================================
+    //  IR proximity beacon processing (V2's processRequest + processIRMessage)
+    // =====================================================================
+    void processIRBeacon(const IRBeaconEvent& event) {
+        // IR beacon received from a nearby node — same flow as handleLinkRequest
+        // but initiated by IR proximity instead of mesh message.
+        // The sender's nodeId is truncated to 16 bits in IR. We use it as-is
+        // for the connection request. The full 32-bit ID comes later via RF ACK.
+        auto result = inlets_.requestConnection(event.senderNodeId);
+
+        Message reply;
+        reply.senderId = nodeId_;
+        reply.receiverId = event.senderNodeId;
+        reply.senderPort = result.inletIndex;
+        reply.receiverPort = 0; // sender's outlet port (assume 0 for IR)
+
+        switch (result.action) {
+            case InletArray::ConnectionResult::ADDED:
+                reply.type = MessageType::LINK_ACK;
+                transport_->send(reply);
+                chirpSpeaker_.chirpUp();
+                ledIndicator_.blinkInlet(result.inletIndex);
+                saveConnections();
+                log_i("IR link ADDED: 0x%04X -> inlet[%d]", event.senderNodeId, result.inletIndex);
+                break;
+
+            case InletArray::ConnectionResult::MOVED:
+                chirpSpeaker_.chirpDownUp();
+                ledIndicator_.blinkInlet(result.inletIndex);
+                saveConnections();
+                log_i("IR link MOVED: 0x%04X to inlet[%d]", event.senderNodeId, result.inletIndex);
+                break;
+
+            case InletArray::ConnectionResult::DELETED:
+                reply.type = MessageType::LINK_DELETE;
+                transport_->send(reply);
+                chirpSpeaker_.chirpDown();
+                ledIndicator_.blinkInlet(result.inletIndex);
+                saveConnections();
+                log_i("IR link DELETED: 0x%04X from inlet[%d]", event.senderNodeId, result.inletIndex);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    // V2 IR remote control processing (codes from a standard NEC remote)
+    void processIRRemote(uint32_t code) {
+        switch (code) {
+            case IR_CODE_CLEAR_ALL:
+                disconnectAll();
+                chirpSpeaker_.chirpDown();
+                log_i("IR remote: CLEAR ALL");
+                break;
+            case IR_CODE_CLEAR_INLETS:
+                inlets_.disconnectAll();
+                saveConnections();
+                chirpSpeaker_.chirpDown();
+                log_i("IR remote: CLEAR INLETS");
+                break;
+            case IR_CODE_CLEAR_OUTLETS:
+                outlets_.disconnectAll();
+                saveConnections();
+                chirpSpeaker_.chirpDown();
+                log_i("IR remote: CLEAR OUTLETS");
+                break;
+            case IR_CODE_LEARN:
+                learnAnalogConditions();
+                chirpSpeaker_.chirpUp();
+                log_i("IR remote: LEARN");
+                break;
+            default:
+                log_d("IR remote unhandled: 0x%08X", code);
                 break;
         }
     }
@@ -502,6 +608,7 @@ private:
     TiltSensor tiltSensor_;
     LedIndicator ledIndicator_;
     LearningButton learningButton_;
+    IRProximity irProximity_;
 
     // Interaction hardware pin config (set before init)
     int8_t chirpPin_ = -1;
@@ -515,6 +622,9 @@ private:
     bool ledEnabled_ = false;
     int8_t learningButtonPin_ = -1;
     bool learningButtonEnabled_ = false;
+    int8_t irSendPin_ = -1;
+    int8_t irRecvPin_ = -1;
+    bool irEnabled_ = false;
 
     // Timing
     uint32_t lastLatchTime_ = 0;

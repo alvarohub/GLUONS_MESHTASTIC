@@ -67,6 +67,13 @@ namespace gluon::board {
     constexpr int  LEARNING_BTN_PIN = -1;  // analog button (not wired by default)
     constexpr uint8_t VIBRATOR_LEDC_CH = 4; // LEDC PWM channel for vibrator
 
+    // --- IR proximity (connection discovery) ---
+    // XIAO has very limited pins. Assign from Grove connectors.
+    // Use a 38kHz IR receiver (e.g. TSOP38238) and an IR LED.
+    // Set to -1 if not wired (IR proximity disabled).
+    constexpr int  IR_SEND_PIN     = -1;   // IR LED (38kHz via RMT) — assign from Grove
+    constexpr int  IR_RECV_PIN     = -1;   // IR demodulator output — assign from Grove
+
     // --- User GPIO (remaining pins for sensors/actuators via Grove) ---
     // XIAO Expansion Board exposes: D0(1), D1(2), D2(3), D3(4), A0(1), A1(2)
     // (D4/D5 used by I2C, D6/D7 used by Serial1 to LoRa)
@@ -144,6 +151,12 @@ namespace gluon::board {
     constexpr int  NEOPIXEL_PIN    = 34;   // NeoPixel LED strip (4 LEDs)
     constexpr int  LEARNING_BTN_PIN = 1;   // analog button (ADC1 ch0)
     constexpr uint8_t VIBRATOR_LEDC_CH = 4; // LEDC PWM channel for vibrator
+
+    // --- IR proximity (connection discovery) ---
+    // Uses 38kHz IR receiver (TSOP38238) and IR LED via RMT peripheral.
+    // V2 used PD3/INT1 for receive and PB1/OC1A for send.
+    constexpr int  IR_SEND_PIN     = 38;   // IR LED (38kHz carrier via RMT)
+    constexpr int  IR_RECV_PIN     = 39;   // IR demodulator (TSOP38238) output
 
     // --- User GPIO (exposed on header pins, not used by LoRa/OLED) ---
     // Available: GPIO 1-7, 19, 20, 33, 34, 38, 39, 45, 46, 47, 48

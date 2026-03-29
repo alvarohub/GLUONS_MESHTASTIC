@@ -86,6 +86,8 @@ void setup() {
     node.setLedPin(board::NEOPIXEL_PIN);
     node.setLearningButtonPin(board::LEARNING_BTN_PIN,
                               board::LEARNING_BTN_PIN >= 0); // enable only if wired
+    node.setIRPins(board::IR_SEND_PIN, board::IR_RECV_PIN,
+                   board::IR_SEND_PIN >= 0 || board::IR_RECV_PIN >= 0);
 
     // 7. Initialize the node (sets up inlets/outlets, loads connections,
     //    initializes interaction hardware, startup animation, etc.)

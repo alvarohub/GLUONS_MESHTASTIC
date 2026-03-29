@@ -12,6 +12,7 @@
   "transport": "loopback",
   "displayEnabled": true,
   "displayDriver": "ssd1306_128x64",
+  "_comment": "V2 Gluon #1: RANGE — IR rangefinder (Sharp GP2Y0A) with LED indicator. Sensor value (0-150cm) passes to outlet on change. Learnable: press learning button to calibrate distance threshold. Also forwards inlet data (passthrough).",
   "sensors": [
     {
       "type": "analog",

@@ -1,0 +1,37 @@
+{
+  "name": "BUZZ",
+  "nodeId": 0,
+  "inlets": 3,
+  "outlets": 1,
+  "maxFanIn": 3,
+  "maxFanOut": 8,
+  "logic": "or_gate",
+  "updateMode": 4,
+  "latchPeriodMs": 100,
+  "transport": "loopback",
+  "_comment": "V2 Gluon #2: BUZZ — LED + Buzzer + Motor. No sensor. Each inlet drives its matching actuator: inlet[0]->buzzer, inlet[1]->white LED, inlet[2]->motor. First inlet with data also passes to outlet (OR merge).",
+  "sensors": [],
+  "actuators": [
+    {
+      "type": "digital",
+      "name": "BUZZ",
+      "pin": 5,
+      "mode": "pulse",
+      "duration": 200
+    },
+    {
+      "type": "digital",
+      "name": "LED",
+      "pin": 6,
+      "mode": "pulse",
+      "duration": 200
+    },
+    {
+      "type": "digital",
+      "name": "MOT",
+      "pin": 7,
+      "mode": "pulse",
+      "duration": 3000
+    }
+  ]
+}

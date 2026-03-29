@@ -1,0 +1,29 @@
+{
+  "name": "DIAL",
+  "nodeId": 0,
+  "inlets": 3,
+  "outlets": 1,
+  "maxFanIn": 3,
+  "maxFanOut": 8,
+  "logic": "passthrough",
+  "updateMode": 5,
+  "latchPeriodMs": 100,
+  "transport": "loopback",
+  "_comment": "V2 Gluon #3: DIAL — Discrete rotary encoder (12-position DFRobot pot or similar). Sensor value (0-11) passes to outlet on change. Also forwards inlet data to outlet (passthrough). No physical actuators (optional display for value).",
+  "sensors": [
+    {
+      "type": "discrete",
+      "name": "DIAL",
+      "pin": 1,
+      "levels": 12,
+      "minVolts": 0.0,
+      "maxVolts": 3.3
+    }
+  ],
+  "actuators": [
+    {
+      "type": "display",
+      "name": "val"
+    }
+  ]
+}

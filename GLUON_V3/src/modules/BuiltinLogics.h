@@ -63,14 +63,20 @@ public:
 
 protected:
     void compute() override {
+        bool outletSet = false;
+
+        // V2-faithful: each inlet independently drives its matching actuator
         for (uint8_t i = 0; i < inlets_->size(); i++) {
             if ((*inlets_)[i].hasNewData()) {
                 Data d = (*inlets_)[i].data();
-                outlets_->setData(d);
-                // Route to matching actuator if available
+                // Outlet: first inlet with data wins (OR merge)
+                if (!outletSet) {
+                    outlets_->setData(d);
+                    outletSet = true;
+                }
+                // Actuator: each inlet drives its matching actuator
                 if (actuators_ && i < actuators_->size())
                     (*actuators_)[i].setData(d);
-                break;
             }
         }
     }
