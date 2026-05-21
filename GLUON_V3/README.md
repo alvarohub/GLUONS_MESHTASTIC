@@ -172,6 +172,12 @@ Key evolution:
 - Fixed 1KB EEPROM → LittleFS filesystem + NVS Preferences
 - 1 sensor + 1 actuator type per build → Any mix via factory pattern
 
+## Credits
+
+**Alvaro Cassinelli** and **Daniel Saakes**
+
+See the original research: [Gluons: Constraining Space to Promote Spatial Interaction Techniques in Handheld Augmented Reality](https://dl.acm.org/doi/10.1145/3024969.3024978)
+
 ## License
 
 TBD
