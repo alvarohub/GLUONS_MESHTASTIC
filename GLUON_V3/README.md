@@ -160,7 +160,7 @@ See `data/examples/` for more: rangefinder, switch+RGB, counter, smart city AND 
 
 ## History
 
-Gluons were originally created in 2015 by Alvaro Cassinelli as a tangible programming system for STEM education and interactive art. The original hardware was ATmega328-based (Moteino R4 + RFM69W at 433 MHz), with point-to-point radio and compile-time configured modules.
+Gluons were originally created in 2015 by Alvaro Cassinelli and Daniel Saakes as a tangible programming system for STEM education and interactive art. The original hardware was ATmega328-based (Moteino R4 + RFM69W at 433 MHz), with point-to-point radio and compile-time configured modules.
 
 V3 is a complete rewrite for ESP32-S3 + LoRa mesh networking, transforming Gluons from a classroom tool into a platform capable of smart city-scale deployments — while preserving the core "connect by proximity, no coding needed" philosophy.
 
