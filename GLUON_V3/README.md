@@ -176,7 +176,7 @@ Key evolution:
 
 **Alvaro Cassinelli** and **Daniel Saakes**
 
-See the original research: [Gluons: Constraining Space to Promote Spatial Interaction Techniques in Handheld Augmented Reality](https://dl.acm.org/doi/10.1145/3024969.3024978)
+See the original research: [Data Flow, Spatial Physical Computing](https://dl.acm.org/doi/10.1145/3024969.3024978)
 
 ## License
 
